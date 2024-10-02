@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Analytics Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js for Dynamic Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar-open {
+                transform: translateX(0);
+            }
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Dark Mode Styles */
+        .dark-mode {
+            background-color: #1a202c;
+            color: white;
+        }
+
+        .dark-mode .card {
+            background-color: #2d3748;
+        }
+
+        .dark-mode table {
+            background-color: #2d3748;
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 font-sans antialiased">
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-purple-600 to-indigo-600 shadow-md fixed w-full z-20 top-0 left-0">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl font-bold text-white">Social Media Analytics</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="darkModeToggle" class="bg-white px-2 py-1 rounded-lg text-black">Dark Mode</button>
+                <button class="focus:outline-none">
+                    <i class="fas fa-bell text-white text-xl"></i>
+                </button>
+                <button class="focus:outline-none">
+                    <i class="fas fa-user-circle text-white text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="flex">
+        <div id="sidebar"
+            class="sidebar fixed flex justify-between flex-col inset-y-0 left-0 z-20 w-64 bg-gray-800 text-white mt-16 transform md:translate-x-0">
+            <div class="pt-4">
+                <a href="index.html" class="flex items-center space-x-2 py-3 px-4 hover:bg-gray-700 transition duration-200">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="./forum.html" class="flex items-center space-x-2 py-3 px-4 hover:bg-gray-700 transition duration-200">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="./reports.html" class="flex items-center space-x-2 py-3 px-4 hover:bg-gray-700 transition duration-200">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Reports</span>
+                </a>
+                <a href="./about.html" class="flex items-center space-x-2 py-3 px-4 hover:bg-gray-700 transition duration-200">
+                    <i class="fas fa-comments"></i>
+                    <span>About Us</span>
+                </a>
+            </div>
+            <div>
+                <a href="#" class="flex items-center space-x-2 py-3 px-4 hover:bg-gray-700 transition duration-200">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 p-6 mt-16 md:ml-64 transition-all duration-500 ease-in-out">
+            <!-- Header Section -->
+            <h1 class="text-4xl font-semibold text-gray-800">Dashboard</h1>
+            <p class="mt-2 text-gray-600">Overview of your social media analytics.</p>
+
+            <!-- Dynamic Charts Section -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div>
+                    <h2 class="text-2xl font-semibold text-gray-800">Follower Growth</h2>
+                    <canvas id="followerGrowthChart" class="mt-4 h-48"></canvas>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-semibold text-gray-800">Engagement Rate</h2>
+                    <canvas id="engagementRateChart" class="mt-4 h-48"></canvas>
+                </div>
+            </div>
+
+            <!-- Table Section -->
+            <div class="mt-8">
+                <h2 class="text-2xl font-semibold text-gray-800">User Analytics Overview</h2>
+                <table class="min-w-full bg-white dark:bg-gray-800 mt-4 shadow-lg rounded-lg overflow-hidden">
+                    <thead>
+                        <tr>
+                            <th class="py-3 px-4 bg-gray-200 dark:bg-gray-900 text-left">Metric</th>
+                            <th class="py-3 px-4 bg-gray-200 dark:bg-gray-900 text-left">Value</th>
+                            <th class="py-3 px-4 bg-gray-200 dark:bg-gray-900 text-left">Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-3 px-4">Total Followers</td>
+                            <td class="py-3 px-4">120K</td>
+                            <td class="py-3 px-4 text-green-500">+1.5%</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4">Engagement Rate</td>
+                            <td class="py-3 px-4">8.9%</td>
+                            <td class="py-3 px-4 text-green-500">+2.3%</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4">Total Posts</td>
+                            <td class="py-3 px-4">350</td>
+                            <td class="py-3 px-4 text-red-500">-4 posts</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Charts and Dark Mode -->
+    <script>
+        // Chart.js - Follower Growth Chart
+        const ctxFollower = document.getElementById('followerGrowthChart').getContext('2d');
+        const followerGrowthChart = new Chart(ctxFollower, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Followers',
+                    data: [12000, 15000, 13000, 17000, 18000, 22000],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Chart.js - Engagement Rate Chart
+        const ctxEngagement = document.getElementById('engagementRateChart').getContext('2d');
+        const engagementRateChart = new Chart(ctxEngagement, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Engagement Rate (%)',
+                    data: [5, 6, 7, 8.9, 7.5, 9],
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+        });
+    </script>
+</body>
+
+</html>
