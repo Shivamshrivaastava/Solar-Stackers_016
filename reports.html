@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media Analytics - Report Section</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+      padding: 20px;
+      height: 100%;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    /* Report Section Container */
+    .report-section {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 1200px;
+      width: 100%;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      margin-bottom: 50px;
+      transition: all 0.3s ease-in-out;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 1s forwards;
+    }
+
+    /* Animation for smooth appearance */
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Header Styles */
+    .report-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .report-header h1 {
+      font-size: 28px;
+      color: #333;
+    }
+
+    .filter-section {
+      display: flex;
+      gap: 15px;
+    }
+
+    .filter-section select, .filter-section input {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .filter-section button {
+      padding: 10px 18px;
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    .filter-section button:hover {
+      background-color: #1565c0;
+    }
+
+    /* Grid Layout for Reports */
+    .report-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    /* Individual Report Box */
+    .report-box {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transform: scale(1);
+      animation: pulse 2s infinite alternate;
+    }
+
+    .report-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .report-title {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .report-value {
+      font-size: 36px;
+      font-weight: bold;
+      color: #1a73e8;
+    }
+
+    .report-description {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    /* Chart Styles */
+    .chart-container {
+      position: relative;
+      height: 250px;
+      width: 100%;
+    }
+
+    /* Keyframes for Pulse Animation */
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(1.05);
+      }
+    }
+
+    /* Responsiveness */
+    @media (max-width: 768px) {
+      .filter-section {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .report-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="report-section">
+    <!-- Header -->
+    <div class="report-header">
+      <h1>Social Media Analytics - Reports</h1>
+      <div class="filter-section">
+        <select id="platform-filter">
+          <option value="all">All Platforms</option>
+          <option value="facebook">Facebook</option>
+          <option value="twitter">Twitter</option>
+          <option value="instagram">Instagram</option>
+        </select>
+        <input type="date" id="start-date" placeholder="Start Date">
+        <input type="date" id="end-date" placeholder="End Date">
+        <button onclick="filterReports()">Filter</button>
+      </div>
+    </div>
+
+    <!-- Report Grid -->
+    <div class="report-grid" id="report-grid">
+      <!-- Followers Box -->
+      <div class="report-box">
+        <div class="report-title">Total Followers</div>
+        <div class="report-value" id="total-followers">34.5K</div>
+        <div class="report-description">Total number of followers across all platforms.</div>
+      </div>
+
+      <!-- Engagement Rate Box -->
+      <div class="report-box">
+        <div class="report-title">Engagement Rate</div>
+        <div class="report-value" id="engagement-rate">4.7%</div>
+        <div class="report-description">Engagement rate based on likes, comments, and shares.</div>
+      </div>
+
+      <!-- Posts Published Box -->
+      <div class="report-box">
+        <div class="report-title">Posts Published</div>
+        <div class="report-value" id="posts-published">120</div>
+        <div class="report-description">Number of posts published in the selected period.</div>
+      </div>
+
+      <!-- Total Impressions Box -->
+      <div class="report-box">
+        <div class="report-title">Total Impressions</div>
+        <div class="report-value" id="total-impressions">1.2M</div>
+        <div class="report-description">Total impressions from all posts during the selected period.</div>
+      </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="report-grid">
+      <!-- Followers Growth Chart -->
+      <div class="report-box">
+        <div class="chart-container">
+          <canvas id="followersChart"></canvas>
+        </div>
+        <div class="report-description">Followers Growth Over Time</div>
+      </div>
+
+      <!-- Engagement Chart -->
+      <div class="report-box">
+        <div class="chart-container">
+          <canvas id="engagementChart"></canvas>
+        </div>
+        <div class="report-description">Engagement Breakdown by Platform</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sample chart data
+    var followersChart = new Chart(document.getElementById('followersChart'), {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+          label: 'Followers',
+          data: [5000, 10000, 15000, 20000, 30000, 34500],
+          borderColor: '#0066cc',
+          fill: false,
+          tension: 0.1
+        }]
+      }
+    });
+
+    var engagementChart = new Chart(document.getElementById('engagementChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Facebook', 'Twitter', 'Instagram'],
+        datasets: [{
+          label: 'Engagement Rate',
+          data: [2.5, 4.7, 3.8],
+          backgroundColor: ['#3b5998', '#00acee', '#e4405f']
+        }]
+      }
+    });
+
+    function filterReports() {
+      // Add filter logic here based on selected platform and date range
+      alert("Filter applied!");
+    }
+  </script>
+
+</body>
+</html>
