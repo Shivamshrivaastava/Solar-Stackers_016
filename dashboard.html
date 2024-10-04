@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Analytics Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar-open {
+                transform: translateX(0);
+            }
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-sans antialiased">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md fixed w-full z-20 top-0 left-0">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl font-bold text-black">MEDIA HUB</h1>
+            </div>
+            <div class="hidden md:flex items-center space-x-4">
+                <input type="text" placeholder="Search"
+                    class="px-4 py-2 border border-gray-300 bg-white rounded-full focus:outline-none">
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="./LoginPage.html" class="text-black hover:text-gray-200 relative group">
+                    Logout
+                    <span
+                        class="absolute left-1/2 transform -translate-x-1/4 -translate-y-full bg-red-600 text-black text-xs rounded py-1 px-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        Logout?
+                    </span>
+                </a>
+                <button class="focus:outline-none">
+                    <i class="fas fa-bell text-black text-xl"></i>
+                </button>
+                <button class="focus:outline-none">
+                    <i class="fas fa-user-circle text-black text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <!-- Sidebar -->
+    <div class="flex">
+        <div id="sidebar"
+            class="sidebar fixed flex justify-between flex-col inset-y-0 left-0 z-20 w-64 bg-gray-800 text-white mt-16 transform md:translate-x-0">
+            <div class="pt-4">
+                <a href="dashboard.html"
+                    class="flex items-center space-x-2 py-3 px-4 hover:bg-gray-700 transition duration-200">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="./forum.html"
+                    class="flex items-center space-x-2 py-3 px-4 hover:bg-gray-700 transition duration-200">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="./reports.html"
+                    class="flex items-center space-x-2 py-3 px-4 hover:bg-gray-700 transition duration-200">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Reports</span>
+                </a>
+                <a href="./about.html"
+                    class="flex items-center space-x-2 py-3 px-4 hover:bg-gray-700 transition duration-200">
+                    <i class="fas fa-comments"></i>
+                    <span>About Us</span>
+                </a>
+            
+               
+            </div>
+            <div>
+                <a href="./settings.html"
+                class="flex items-center space-x-2 py-3 px-4 hover:bg-gray-700 transition duration-200">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+               
+            </div>
+        </div>
+        <!-- Content -->
+        <div class="flex-1 p-6 mt-16 md:ml-64 transition-all duration-500 ease-in-out">
+            <!-- Header Section -->
+            <h1 class="text-4xl font-semibold text-gray-800">Dashboard</h1>
+            <p class="mt-2 text-gray-600">Overview of your social media analytics.</p>
+            <!-- Cards Section -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+                <div
+                    class="card bg-gradient-to-r from-green-400 to-blue-500 p-4 rounded-lg shadow-lg text-white hover:shadow-xl transition-shadow duration-300 transform">
+                    <h2 class="text-lg font-semibold">Total Followers</h2>
+                    <p class="text-2xl font-bold">120K</p>
+                    <p class="text-sm mt-1">+1.5% from last week</p>
+                </div>
+                <div
+                    class="card bg-gradient-to-r from-blue-400 to-purple-500 p-4 rounded-lg shadow-lg text-white hover:shadow-xl transition-shadow duration-300 transform">
+                    <h2 class="text-lg font-semibold">Engagement Rate</h2>
+                    <p class="text-2xl font-bold">8.9%</p>
+                    <p class="text-sm mt-1">+2.3% from last week</p>
+                </div>
+                <div
+                    class="card bg-gradient-to-r from-yellow-400 to-red-500 p-4 rounded-lg shadow-lg text-white hover:shadow-xl transition-shadow duration-300 transform">
+                    <h2 class="text-lg font-semibold">Total Posts</h2>
+                    <p class="text-2xl font-bold">350</p>
+                    <p class="text-sm mt-1">-4 posts from last week</p>
+                </div>
+                <div
+                    class="card bg-gradient-to-r from-purple-400 to-pink-500 p-4 rounded-lg shadow-lg text-white hover:shadow-xl transition-shadow duration-300 transform">
+                    <h2 class="text-lg font-semibold">New Messages</h2>
+                    <p class="text-2xl font-bold">45</p>
+                    <p class="text-sm mt-1">+10 messages from last week</p>
+                </div>
+            </div>
+            <!-- Static Charts Section -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                <div>
+                    <h2 class="text-2xl font-semibold text-gray-800">Follower Growth</h2>
+                    <div class="mt-4 h-48 rounded-lg shadow-lg bg-gray-300 flex items-center justify-center">
+                        <canvas id="followerGrowthChart"></canvas>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-semibold text-gray-800">Engagement Rate</h2>
+                    <div class="mt-4 h-48 rounded-lg shadow-lg bg-gray-300 flex items-center justify-center">
+                        <canvas id="engagementRateChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Combined Pie Chart Section -->
+            <div class="mt-8">
+                <h2 class="text-2xl font-semibold text-gray-800">Engagement Distribution</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                    <div class="h-80 mt-4 rounded-lg shadow-lg bg-gray-300 flex items-center justify-center">
+                        <canvas id="engagementDistributionChart"></canvas>
+                    </div>
+                    <div class="h-80 mt-4 rounded-lg shadow-lg bg-gray-300 flex items-center justify-center">
+                        <canvas id="platformEngagementChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js Scripts -->
+    <script>
+        // Follower Growth Chart
+        const followerGrowthCtx = document.getElementById('followerGrowthChart').getContext('2d');
+        const followerGrowthChart = new Chart(followerGrowthCtx, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'Followers',
+                    data: [1000, 1200, 1400, 1500],
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderWidth: 2,
+                    fill: true,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            afterBody: function(tooltipItems) {
+                                const engagementDistribution = {
+                                    "Instagram": 350,
+                                    "Twitter": 250,
+                                    "Facebook": 200,
+                                    "LinkedIn": 200,
+                                };
+                                return Object.entries(engagementDistribution).map(([key, value]) => `${key}: ${value}`).join('\n');
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Engagement Rate Chart
+        const engagementRateCtx = document.getElementById('engagementRateChart').getContext('2d');
+        new Chart(engagementRateCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'Engagement Rate (%)',
+                    data: [7.5, 8.2, 8.7, 8.9],
+                    backgroundColor: 'rgba(153, 102, 255, 0.6)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            afterBody: function() {
+                                const engagementDistribution = {
+                                    "Instagram": 350,
+                                    "Twitter": 250,
+                                    "Facebook": 200,
+                                    "LinkedIn": 200,
+                                };
+                                return Object.entries(engagementDistribution).map(([key, value]) => `${key}: ${value}`).join('\n');
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Engagement Distribution Chart
+        const engagementDistributionCtx = document.getElementById('engagementDistributionChart').getContext('2d');
+        new Chart(engagementDistributionCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Likes', 'Shares', 'Comments'],
+                datasets: [{
+                    label: 'Engagement Distribution',
+                    data: [55, 25, 20],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            }
+        });
+
+        // Platform Engagement Distribution Chart
+        const platformEngagementCtx = document.getElementById('platformEngagementChart').getContext('2d');
+        new Chart(platformEngagementCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Instagram', 'Twitter', 'Facebook', 'LinkedIn'],
+                datasets: [{
+                    label: 'Platform Engagement',
+                    data: [35, 25, 20, 20],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(255, 159, 64, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(153, 102, 255, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            }
+        });
+    </script>
+</body>
+
+</html>
