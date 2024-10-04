@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum - Social Media Analytics Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <style>
+        body {
+            background-color: #E3F2FD;
+            font-family: 'Roboto', sans-serif;
+            color: #2C3E50;
+        }
+
+        .sidebar {
+            background: linear-gradient(to right, #202938 0%, #202938 100%);
+            color: white;
+        }
+
+        .sidebar a.active-link {
+            background: #3498DB;
+        }
+
+        .sidebar a:hover {
+            background: #2874A6;
+            transition: background 0.3s;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 120px;
+            background-color: #2980B9;
+            color: #ffffff;
+            text-align: center;
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        h1 {
+            color: #1A5276;
+        }
+
+        h2 {
+            color: #2C3E50;
+        }
+
+        .animate-button {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .animate-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            #sidebar {
+                transform: translateX(-100%);
+            }
+
+            #sidebar.active {
+                transform: translateX(0);
+            }
+
+            .flex-1 {
+                margin-left: 0;
+            }
+
+            .card {
+                margin: 10px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .card {
+                margin: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-light-blue-100 font-sans antialiased">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-lg fixed w-full z-30 top-0 left-0">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <button onclick="toggleSidebar()" class="focus:outline-none md:hidden animate-button">
+                    <i class="fas fa-bars text-2xl text-gray-700"></i>
+                </button>
+                <a href="index.html" class="text-2xl font-bold text-gray-800">MEDIA-HUB</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-4">
+                <input type="text" placeholder="Search" class="px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button class="focus:outline-none">
+                    <i class="fas fa-search text-gray-600"></i>
+                </button>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="tooltip relative">
+                    <a href="index1.html" class="text-gray-600 hover:text-gray-900">Logout</a>
+                    <span class="tooltip-text">Logout?</span>
+                </div>
+                <button class="focus:outline-none">
+                    <i class="fas fa-bell text-gray-600 text-xl"></i>
+                </button>
+                <button class="focus:outline-none">
+                    <i class="fas fa-user-circle text-gray-600 text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="flex">
+        <div id="sidebar" class="sidebar fixed inset-y-0 left-0 w-64 transform transition-transform duration-300 ease-in-out mt-16 md:w-48">
+            <div class="pt-8">
+                <a href="index.html" class="block py-3 px-4 text-gray-100 hover:bg-gray-700 active-link">Dashboard</a>
+                <a href="forum.html" class="block py-3 px-4 text-gray-100 hover:bg-gray-700 active-link">Analytics</a>
+                <a href="reports.html" class="block py-3 px-4 text-gray-100 hover:bg-gray-700">Reports</a>
+                <a href="#" class="block py-3 px-4 text-gray-100 hover:bg-gray-700">Settings</a>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="flex-1 p-6 mt-20 ml-64 transition-all duration-500 ease-in-out">
+            <!-- Header Section -->
+            <header class="mb-8">
+                <h1 class="text-4xl font-semibold">Forum Analytics</h1>
+                <p class="mt-2 text-gray-700">Gain insights into engagement trends and discussion patterns.</p>
+            </header>
+
+            <!-- User Count Display -->
+            <section class="bg-white p-5 rounded-lg shadow mb-6">
+                <h2 class="text-2xl font-semibold">Current User Count</h2>
+                <p id="userCount" class="text-3xl text-blue-600 font-bold mt-2">100</p>
+            </section>
+
+            <!-- Forum Chart Section -->
+            <section class="mt-10">
+                <h2 class="text-2xl font-semibold">Posts Engagement Over Time</h2>
+                <canvas id="forumEngagementChart" class="mt-5"></canvas>
+            </section>
+
+            <!-- Analytics Cards -->
+            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+                <!-- Engagement by Post Type Card -->
+                <div class="card p-6">
+                    <h3 class="text-xl font-semibold text-gray-800">Engagement by Post Type</h3>
+                    <canvas id="engagementByPostType" class="mt-5"></canvas>
+                </div>
+
+                <!-- Top Posts Card -->
+                <div class="card p-6">
+                    <h3 class="text-xl font-semibold text-gray-800">Top Posts</h3>
+                    <ul class="mt-4">
+                        <li class="border-b border-gray-200 py-2 flex justify-between">
+                            <span>Post 1</span><span>500 Likes</span>
+                        </li>
+                        <li class="border-b border-gray-200 py-2 flex justify-between">
+                            <span>Post 2</span><span>350 Likes</span>
+                        </li>
+                        <li class="border-b border-gray-200 py-2 flex justify-between">
+                            <span>Post 3</span><span>275 Likes</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- User Engagement Trends Card -->
+                <div class="card p-6">
+                    <h3 class="text-xl font-semibold text-gray-800">User Engagement Trends</h3>
+                    <canvas id="userEngagementTrends" class="mt-5"></canvas>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Chart.js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.0/dist/chart.min.js"></script>
+    <script>
+        let userCount = 100; // Starting user count
+
+        // Function to generate random data based on user count
+        function generateDataBasedOnUsers(base, variance) {
+            return Math.max(0, Math.floor(base + (Math.random() * variance) - (userCount * 0.1)));
+        }
+
+        // Forum Engagement Chart with Gradient Colors
+        const ctxEngagement = document.getElementById('forumEngagementChart').getContext('2d');
+        const forumEngagementChart = new Chart(ctxEngagement, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                datasets: [{
+                    label: 'Posts Engagement',
+                    data: [
+                        generateDataBasedOnUsers(120, 50),
+                        generateDataBasedOnUsers(190, 50),
+                        generateDataBasedOnUsers(300, 100),
+                        generateDataBasedOnUsers(500, 100),
+                        generateDataBasedOnUsers(200, 50),
+                        generateDataBasedOnUsers(300, 100),
+                        generateDataBasedOnUsers(450, 100)
+                    ],
+                    backgroundColor: 'rgba(75, 192, 192, 0.4)',
+                    borderColor: '#4b9cd3',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4,
+                }]
+            }
+        });
+
+        // Engagement by Post Type Chart with Colorful Backgrounds
+        const ctxPostType = document.getElementById('engagementByPostType').getContext('2d');
+        const engagementByPostTypeChart = new Chart(ctxPostType, {
+            type: 'doughnut',
+            data: {
+                labels: ['Facebook', 'Instagram', 'Twitter', 'LinkedIn'],
+                datasets: [{
+                    data: [
+                        generateDataBasedOnUsers(300, 100),
+                        generateDataBasedOnUsers(250, 100),
+                        generateDataBasedOnUsers(150, 50),
+                        generateDataBasedOnUsers(100, 50)
+                    ],
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+                }]
+            }
+        });
+
+        // User Engagement Trends Bar Chart with Custom Colors
+        const ctxUserEngagement = document.getElementById('userEngagementTrends').getContext('2d');
+        const userEngagementTrendsChart = new Chart(ctxUserEngagement, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                datasets: [{
+                    label: 'User Engagement',
+                    data: [
+                        generateDataBasedOnUsers(150, 50),
+                        generateDataBasedOnUsers(200, 100),
+                        generateDataBasedOnUsers(350, 150),
+                        generateDataBasedOnUsers(400, 200),
+                        generateDataBasedOnUsers(250, 100),
+                        generateDataBasedOnUsers(320, 150),
+                        generateDataBasedOnUsers(500, 200)
+                    ],
+                    backgroundColor: '#42a5f5',
+                    borderColor: '#1e88e5',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Update the user count and chart data
+        function updateUserCount() {
+            const change = Math.floor(Math.random() * 21) - 10; // Random change between -10 and +10
+            userCount += change;
+            userCount = Math.max(0, userCount); // Ensure user count doesn't go below 0
+
+            document.getElementById('userCount').innerText = userCount;
+
+            // Update Charts
+            forumEngagementChart.data.datasets[0].data = [
+                generateDataBasedOnUsers(120, 50),
+                generateDataBasedOnUsers(190, 50),
+                generateDataBasedOnUsers(300, 100),
+                generateDataBasedOnUsers(500, 100),
+                generateDataBasedOnUsers(200, 50),
+                generateDataBasedOnUsers(300, 100),
+                generateDataBasedOnUsers(450, 100)
+            ];
+            engagementByPostTypeChart.data.datasets[0].data = [
+                generateDataBasedOnUsers(300, 100),
+                generateDataBasedOnUsers(250, 100),
+                generateDataBasedOnUsers(150, 50),
+                generateDataBasedOnUsers(100, 50)
+            ];
+            userEngagementTrendsChart.data.datasets[0].data = [
+                generateDataBasedOnUsers(150, 50),
+                generateDataBasedOnUsers(200, 100),
+                generateDataBasedOnUsers(350, 150),
+                generateDataBasedOnUsers(400, 200),
+                generateDataBasedOnUsers(250, 100),
+                generateDataBasedOnUsers(320, 150),
+                generateDataBasedOnUsers(500, 200)
+            ];
+
+            forumEngagementChart.update();
+            engagementByPostTypeChart.update();
+            userEngagementTrendsChart.update();
+        }
+
+        // Update user count and charts every 5 seconds
+        setInterval(updateUserCount, 5000);
+
+        // Toggle Sidebar Function
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>
