@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media Analytics</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Global Styling */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #007bff;
+      padding: 1rem 2rem;
+      color: #fff;
+    }
+
+    .navbar .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .navbar nav {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .navbar nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    .navbar nav a:hover {
+      color: #ffc107;
+    }
+
+    /* Main Section */
+    .main-content {
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-top: 1rem;
+      color: #007bff;
+    }
+
+    .filter-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1.5rem 0;
+    }
+
+    select, input, button {
+      font-size: 1rem;
+      padding: 0.8rem 1rem;
+      margin: 0 0.5rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Report Grid Styling */
+    .report-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem;
+      padding: 0;
+    }
+
+    .report-box {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .report-box:hover {
+      transform: translateY(-10px);
+    }
+
+    .report-title {
+      font-size: 1.5rem;
+      color: #555;
+      margin-bottom: 0.5rem;
+    }
+
+    .report-value {
+      font-size: 2.5rem;
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    .report-description {
+      font-size: 0.875rem;
+      color: #888;
+      margin-top: 0.5rem;
+    }
+
+    /* Chart Containers */
+    .chart-container {
+      position: relative;
+      height: 200px;
+      margin-bottom: 1rem;
+    }
+
+    /* LinkedIn Share Button */
+    .linkedin-share {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .linkedin-share a {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background-color: #0077b5;
+      color: white;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .linkedin-share a:hover {
+      background-color: #005983;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      select, input, button {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+
+      .filter-section {
+        flex-direction: column;
+      }
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #007bff;
+      color: #fff;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="logo">MEDIA HUB</div>
+    <nav>
+      <a href="./dashboard.html">Dashboard</a>
+      <a href="#">Reports</a>
+      <a href="#">Settings</a>
+    </nav>
+  </header>
+
+  <!-- Main Content Section -->
+  <div class="main-content">
+    <h1>Detailed Report For Our Social Media Platform</h1>
+
+    <!-- Filter Section -->
+    <div class="filter-section">
+      <select id="platform-filter">
+        <option value="all">All Platforms</option>
+        <option value="facebook">Facebook</option>
+        <option value="twitter">Twitter</option>
+        <option value="instagram">Instagram</option>
+      </select>
+      <input type="date" id="start-date" placeholder="Start Date">
+      <input type="date" id="end-date" placeholder="End Date">
+      <button onclick="filterReports()">Filter</button>
+    </div>
+
+    <!-- Report Grid -->
+    <div class="report-grid">
+      <!-- Followers Box -->
+      <div class="report-box">
+        <div class="report-title">Total Followers</div>
+        <div class="report-value" id="total-followers">34.5K</div>
+        <div class="report-description">Total number of followers across all platforms.</div>
+      </div>
+
+      <!-- Engagement Rate Box -->
+      <div class="report-box">
+        <div class="report-title">Engagement Rate</div>
+        <div class="report-value" id="engagement-rate">4.7%</div>
+        <div class="report-description">Engagement rate based on likes, comments, and shares.</div>
+      </div>
+
+      <!-- Posts Published Box -->
+      <div class="report-box">
+        <div class="report-title">Posts Published</div>
+        <div class="report-value" id="posts-published">120</div>
+        <div class="report-description">Number of posts published in the selected period.</div>
+      </div>
+
+      <!-- Total Impressions Box -->
+      <div class="report-box">
+        <div class="report-title">Total Impressions</div>
+        <div class="report-value" id="total-impressions">1.2M</div>
+        <div class="report-description">Total impressions from all posts during the selected period.</div>
+      </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="report-grid">
+      <!-- Followers Growth Chart -->
+      <div class="report-box">
+        <div class="chart-container">
+          <canvas id="followersChart"></canvas>
+        </div>
+        <div class="report-description">Followers Growth Over Time</div>
+        <div class="linkedin-share">
+          <a href="#" target="_blank">Share on LinkedIn</a>
+        </div>
+      </div>
+
+      <!-- Engagement Chart -->
+      <div class="report-box">
+        <div class="chart-container">
+          <canvas id="engagementChart"></canvas>
+        </div>
+        <div class="report-description">Engagement Breakdown by Platform</div>
+        <div class="linkedin-share">
+          <a href="#" target="_blank">Share on LinkedIn</a>
+        </div>
+      </div>
+
+      <!-- Real-Time Data Chart -->
+      <div class="report-box">
+        <div class="chart-container">
+          <canvas id="realTimeChart"></canvas>
+        </div>
+        <div class="report-description">Live Impressions Over Time</div>
+        <div class="linkedin-share">
+          <a href="#" target="_blank">Share on LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    &copy; 2024 MEDIA HUB - All Rights Reserved.
+  </footer>
+
+  <!-- JavaScript for Dynamic Data -->
+  <script>
+    // Sample data for different platforms
+    const reportData = {
+      all: {
+        followers: 34500,
+        engagementRate: 4.7,
+        postsPublished: 120,
+        impressions: 1200000
+      },
+      facebook: {
+        followers: 15000,
+        engagementRate: 3.5,
+        postsPublished: 50,
+        impressions: 500000
+      },
+      twitter: {
+        followers: 10000,
+        engagementRate: 5.0,
+        postsPublished: 40,
+        impressions: 400000
+      },
+      instagram: {
+        followers: 9500,
+        engagementRate: 5.8,
+        postsPublished: 30,
+        impressions: 300000
+      }
+    };
+
+    // Followers Chart
+    new Chart(document.getElementById('followersChart'), {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+        datasets: [{
+          label: 'Followers',
+          data: [10000, 12000, 18000, 24000, 34500],
+          borderColor: '#007bff',
+          fill: false,
+          tension: 0.3
+        }]
+      }
+    });
+
+    // Engagement Chart
+    new Chart(document.getElementById('engagementChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Facebook', 'Twitter', 'Instagram', 'LinkedIn'],
+        datasets: [{
+          data: [15000, 10000, 9500, 8000],
+          backgroundColor: ['#3b5998', '#1da1f2', '#c13584', '#0077b5'],
+          hoverOffset: 4
+        }]
+      }
+    });
+
+    // Real-Time Impressions Chart
+    let realTimeChart = new Chart(document.getElementById('realTimeChart'), {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'Impressions',
+          data: [],
+          borderColor: '#007bff',
+          fill: false,
+          tension: 0.3
+        }]
+      }
+    });
+
+    // Filter Reports Function
+    function filterReports() {
+      const platform = document.getElementById('platform-filter').value;
+      const data = reportData[platform];
+
+      document.getElementById('total-followers').textContent = formatNumber(data.followers);
+      document.getElementById('engagement-rate').textContent = data.engagementRate + '%';
+      document.getElementById('posts-published').textContent = data.postsPublished;
+      document.getElementById('total-impressions').textContent = formatNumber(data.impressions);
+    }
+
+    // Format number with commas
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    // Real-time chart update simulation
+    setInterval(function () {
+      const currentTime = new Date().toLocaleTimeString();
+      const randomImpression = Math.floor(Math.random() * 500) + 500;
+
+      realTimeChart.data.labels.push(currentTime);
+      realTimeChart.data.datasets[0].data.push(randomImpression);
+
+      if (realTimeChart.data.labels.length > 10) {
+        realTimeChart.data.labels.shift();
+        realTimeChart.data.datasets[0].data.shift();
+      }
+
+      realTimeChart.update();
+    }, 2000);
+  </script>
+</body>
+</html>
