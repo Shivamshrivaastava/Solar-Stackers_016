@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Social Media Analytics</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Settings</h1>
+            <nav>
+                <ul>
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Reports</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <aside class="sidebar">
+            <h2>Account Settings</h2>
+            <ul>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Notifications</a></li>
+                <li><a href="#">Integrations</a></li>
+                <li><a href="#">Privacy</a></li>
+                <li><a href="#">Security</a></li>
+            </ul>
+        </aside>
+
+        <main>
+            <section class="profile-settings">
+                <h2>Profile Settings</h2>
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password">
+                    </div>
+                    <button type="submit">Save Changes</button>
+                </form>
+                <div id="message" style="margin-top: 20px;"></div>
+            </section>
+
+            <section class="notification-settings">
+                <h2>Notification Settings</h2>
+                <form>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="email_notifications" checked>
+                            Email Notifications
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="sms_notifications">
+                            SMS Notifications
+                        </label>
+                    </div>
+                    <button type="submit">Update Notifications</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('profileForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            
+            // Get values from the form
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Simple validation
+            if (username === '' || email === '') {
+                displayMessage('Please fill in all required fields.', 'error');
+                return;
+            }
+
+            // Simulate a successful save operation
+            // (In a real application, you would send this data to the server)
+            displayMessage('Profile updated successfully!', 'success');
+
+            // Clear the form fields after submission
+            document.getElementById('profileForm').reset();
+        });
+
+        function displayMessage(message, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = message;
+            messageDiv.style.color = type === 'success' ? 'green' : 'red';
+        }
+    </script>
+</body>
+</html>
