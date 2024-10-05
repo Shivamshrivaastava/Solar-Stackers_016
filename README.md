@@ -5,8 +5,10 @@ Project Type Frontend
 Deplolyed App Frontend: https://radiant-crostata-11596d.netlify.app/
 
 Directory Structure my-app/ ├─ frontend/ │ ├─ Loginpage.html ├─ forum.html ├─ reports.html├─about.html ├─settings.html
+
 Video Walkthrough of the project:
 Attached a video walkthough of our website -https://youtu.be/XuOg-qoKQFs
+
 Features: Media Hub typically includes various features that help track, analyze, and optimize social media performance.
 
 Dashboard and Overview : Provides a comprehensive view of key metrics like total engagement, followers, and top-performing posts. It offers quick insights into overall performance.
