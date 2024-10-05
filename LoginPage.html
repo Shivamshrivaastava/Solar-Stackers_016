@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-image: linear-gradient(315deg, #9921e8 0%, #5f72be 74%);
+      }
+
+      .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+      }
+
+      .login-box {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 400px;
+        position: relative;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .social-signin {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+      }
+
+      .social-signin button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 10px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        color: white;
+        margin-bottom: 10px;
+      }
+
+      .google-button {
+        background-color: #db4437;
+      }
+
+      .google-button img,
+      .facebook-button img {
+        width: 20px; /* Restricting logo width */
+        height: 20px; /* Restricting logo height */
+        margin-right: 10px;
+      }
+
+      .facebook-button {
+        background-color: #4267b2;
+      }
+
+      .social-signin p {
+        text-align: center;
+        margin-bottom: 15px;
+        color: #666;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      label {
+        display: block;
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 5px;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+        color: #333;
+        background-color: #fff;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #5f72be;
+        background-color: #f3f3f3;
+      }
+
+      /* Hover effect to highlight the username and password blocks */
+      .input-group:hover input {
+        border-color: #007bff;
+        background-color: #f3f3f3;
+      }
+
+      input::placeholder {
+        color: #999;
+      }
+
+      .default-credentials {
+        font-size: 12px;
+        color: #888;
+        margin-top: 5px;
+      }
+
+      .login-button {
+        width: 100%;
+        padding: 12px;
+        background-color: #5f72be;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .login-button:hover {
+        background-color: #9921e8;
+      }
+
+      .signup-link {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 14px;
+      }
+
+      .signup-link a {
+        color: #007bff;
+        text-decoration: none;
+      }
+
+      .signup-link a:hover {
+        text-decoration: underline;
+      }
+
+      .alert {
+        display: none;
+        margin-top: 15px;
+        padding: 10px;
+        text-align: center;
+        border-radius: 5px;
+      }
+
+      .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="login-box">
+        <h2>Login</h2>
+
+        <div class="social-signin">
+          <p>Sign in with your Gmail credentials</p>
+          <button class="google-button" onclick="redirectToGoogle()">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvpln6yo2Mst_9FRm5elCJF6IINDhzThNF-w&s" />
+            Sign in with Gmail
+          </button>
+          <button class="facebook-button" onclick="redirectToFacebook()">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" />
+            Sign in with Facebook
+          </button>
+        </div>
+
+        <div class="input-group">
+          <label for="email">Username</label>
+          <input
+            type="text"
+            id="email"
+            placeholder="Enter your email"
+            required
+          />
+          <div class="default-credentials">
+            Default Username: admin@gmail.com
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            required
+          />
+          <div class="default-credentials">Default Password: admin</div>
+        </div>
+
+        <button class="login-button" onclick="login()">Sign In</button>
+
+        <!-- Alert messages -->
+        <div id="alertSuccess" class="alert alert-success">
+          Login successful! Redirecting...
+        </div>
+        <div id="alertError" class="alert alert-danger">
+          Invalid email or password. Please try again.
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function redirectToGoogle() {
+        window.location.href =
+          "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&ifkv=ARpgrqesLAU8M0ERNMXumi7PdEgwdmN2XfPO9IUT-lSqTAgkR8JcXiVKbdjULFdNre8PTW2z6D0K&rip=1&sacu=1&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1827688163%3A1728024944021718&ddm=1";
+      }
+
+      function redirectToFacebook() {
+        window.location.href = "https://www.facebook.com/";
+      }
+
+      function login() {
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var alertSuccess = document.getElementById("alertSuccess");
+        var alertError = document.getElementById("alertError");
+
+        // Hide alerts initially
+        alertSuccess.style.display = "none";
+        alertError.style.display = "none";
+
+        // Check credentials
+        if (email === "admin@gmail.com" && password === "admin") {
+          alertSuccess.style.display = "block";
+          setTimeout(function () {
+            window.open("./dashboard.html", "_blank"); // Open Google in a new tab
+          }, 2000);
+        } else {
+          alertError.style.display = "block"; // Show error if credentials are invalid
+        }
+      }
+    </script>
+  </body>
+</html>
